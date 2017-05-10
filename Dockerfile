@@ -1,30 +1,29 @@
-# Use phusion/baseimage as base image. To make your builds reproducible, make
-# sure you lock down to a specific version, not to `latest`!
-# See https://github.com/phusion/baseimage-docker/blob/master/Changelog.md for
-# a list of version numbers.
-FROM phusion/baseimage:0.9.21
+FROM ubuntu:16.04
 
-USER root
-
-# Use baseimage-docker's init system.
-CMD ["/sbin/my_init"]
-
+#need to install software properties on this version of ubuntu to run add-apt-repository
+RUN apt-get update && apt-get install -y software-properties-common python-software-properties
 RUN add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable
-RUN apt-get update && apt-get install -y \
-git \
-nano \
-python3-dev \
-gdal-bin \
-libgdal-dev \
-python3-gdal \
-rio \
-fio
+RUN apt-get install -y \
+	curl \
+	python3 \
+	python3-dev \
+	gdal-bin \
+	libgdal-dev \
+	python3-gdal \
+	rasterio \
+	fiona \
+	libspatialindex-c4v5 \ 
+	# libspatialindex-c4v5 fixes error when importing geopandas
+	python3-tk \ 
+	#python3-tk osmnx dependency
+	&& \
 
-RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
-    python3 get-pip.py && \
-    rm get-pip.py
+	curl -O https://bootstrap.pypa.io/get-pip.py && \
+	python3 get-pip.py && \
+	rm get-pip.py \
+	&& \
 
-RUN pip --no-cache-dir install \
+	pip --no-cache-dir install \
 	gdal2mbtiles \
         jupyter \
         matplotlib \
@@ -42,14 +41,10 @@ RUN pip --no-cache-dir install \
 	rasterio \
 	shapely \
 	pysal \
-	Cartopy \
 	geojsonio \
 	scrapy \
-	urllib \
-	beautifulsoup \
-	pyscopg2 \
 	geopy \
-        && \
+	beautifulsoup4
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
