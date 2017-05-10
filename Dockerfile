@@ -47,6 +47,8 @@ RUN pip --no-cache-dir install \
 	scrapy \
 	urllib \
 	beautifulsoup \
+	pyscopg2 \
+	geopy \
         && \
 
 # Clean up APT when done.
