@@ -59,6 +59,5 @@ CMD ["/run_jupyter.sh", "--allow-root"]
 
 # Externally accessible data is by default put in /data
 WORKDIR /data
-VOLUME ["/data"]
 
 CMD ["/bin/bash"]
