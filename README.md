@@ -2,5 +2,5 @@
 docker image for geospatial in python
 
 
-run it with:
-docker run -it -p 8888:8888 garretw/pygeo bash
+to run jupyter notebook in your host environment:
+docker run -it -p 8888:8888 -v /$(pwd)/:/data garretw/pygeo:0.1 jupyter notebook --ip 0.0.0.0 --no-browser --allow-root
