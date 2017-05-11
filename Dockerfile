@@ -52,6 +52,9 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 COPY jupyter_notebook_config.py /root/.jupyter/
 COPY run_jupyter.sh /
 
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+
 # jupyter
 EXPOSE 8888
 
